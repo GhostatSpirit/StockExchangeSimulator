@@ -4,9 +4,46 @@
 
 #include "Order.h"
 
+// default constructor that stores nothing (dangerous)
+Order::Order() {
+	m_clientId = "";
+	m_symbol = "";
+	m_owner = "";
+	m_target = "";
+	m_side = undefined;
+	m_type = others;
+	m_price = -1;
+	m_quantity = -1;
+
+	m_openQuantity = -1;
+	m_executedQuantity = -1;
+	m_avgExecutedPrice = -1;
+	m_lastExecutedPrice = -1;
+	m_lastExecutedQuantity = -1;
+}
+
+
+// construct an order form an existed order
+Order::Order(const Order& copy) {
+	m_clientId = copy.getClientID();
+	m_symbol = copy.getSymbol();
+	m_owner = copy.getOwner();
+	m_target = copy.getTarget();
+	m_side = copy.getSide();
+	m_type = copy.getType();
+	m_price = copy.getPrice();
+	m_quantity = copy.getQuantity();
+
+	m_openQuantity = copy.getOpenQuantity();
+	m_executedQuantity = copy.getExecutedQuantity();
+	m_avgExecutedPrice = copy.getAvgExecutedPrice();
+	m_lastExecutedPrice = copy.getLastExecutedPrice();
+	m_lastExecutedQuantity = copy.getLastExecutedQuantity();
+}
+
+
 // implementation of the Order constructor that constructs an order 
 // from a message string
-
 Order::Order(const std::string& orderStr) {
 	// the fields we need in an order:
 	/*  m_clientId(clientId), m_symbol(symbol), m_owner(owner),

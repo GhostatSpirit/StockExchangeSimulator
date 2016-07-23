@@ -23,14 +23,15 @@
  * This header file defines a basic stock exchange order.
  */
 
-#ifndef ORDERMATCH_ORDER_H
-#define ORDERMATCH_ORDER_H
+#ifndef _ORDERMATCH_ORDER_H
+#define _ORDERMATCH_ORDER_H
 
 #include <string>
 #include <iomanip>
 #include <ostream>
 
 #include "quickfix\Message.h"
+#include "quickfix\Exceptions.h"
 
 using namespace std;
 
@@ -39,8 +40,11 @@ class Order
 	friend std::ostream& operator<<( std::ostream&, const Order& );
 
 public:
-	enum Side { buy, sell };
-	enum Type { market, limit, others };
+	enum Side { buy, sell, undefined };
+	enum Type { market, limit, others, };
+
+	// default constructor that stores nothing (dangerous)
+	Order();
 
 	// construct an order using a message string
 	Order(const std::string& orderStr);
@@ -59,6 +63,9 @@ public:
 		m_lastExecutedPrice = 0;
 		m_lastExecutedQuantity = 0;
 	}
+
+	// construct an order form an existed order
+	Order(const Order& copy);
 
 	const std::string& getClientID() const { return m_clientId; }
 	const std::string& getSymbol() const { return m_symbol; }
@@ -93,6 +100,60 @@ public:
 	{
 		m_openQuantity = 0;
 	}
+
+	// overriding operator >, <, >=, <=
+	bool operator > (Order _order) {
+		// cannot compare two orders if their symbols are different
+		if (m_symbol != _order.getSymbol()) {
+			throw logic_error("cannot compare two orders with different symbols");
+		}
+		if (m_price > _order.getPrice()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	bool operator < (Order _order) {
+		// cannot compare two orders if their symbols are different
+		if (m_symbol != _order.getSymbol()) {
+			throw logic_error("cannot compare two orders with different symbols");
+		}
+		if (m_price < _order.getPrice()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	bool operator >= (Order _order) {
+		// cannot compare two orders if their symbols are different
+		if (m_symbol != _order.getSymbol()) {
+			throw logic_error("cannot compare two orders with different symbols");
+		}
+		if (m_price >= _order.getPrice()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	bool operator <= (Order _order) {
+		// cannot compare two orders if their symbols are different
+		if (m_symbol != _order.getSymbol()) {
+			throw logic_error("cannot compare two orders with different symbols");
+		}
+		if (m_price <= _order.getPrice()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 
 private:
 	std::string m_clientId;
