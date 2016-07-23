@@ -19,6 +19,7 @@
 using namespace std;
 
 class OrderBook {
+	friend std::ostream& operator<<(std::ostream& ostream, OrderBook& orderbook);
 public:
 	// ------------ Constructors -------------
 	OrderBook(string& symbol);	// construct an OrderBook using a string symbol
@@ -33,7 +34,7 @@ public:
 	bool match(Transaction trans);		// run a match process according to the match mechanisms,
 										// stores the transaction details in the Transaction object if successed
 										// return true if succeeded, false if failed
-
+	Transaction getLastTransaction() { return m_lastTransaction; }
 
 private:
 	string _symbol;				// a string stores the symbol of this order book
@@ -53,6 +54,8 @@ private:
 	long m_executedQuantity;
 	long m_lastExecutedQuantity;
 	double m_avgExecutedPrice;
+
+	Transaction m_lastTransaction;
 	
 	
 };

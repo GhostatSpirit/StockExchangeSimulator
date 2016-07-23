@@ -40,6 +40,12 @@ public:
 	   return *this;
    }
 
+   // iterator for STL container:
+   typedef vector<T>::iterator iterator;
+   typedef vector<T>::const_iterator const_iterator;
+   iterator begin() { return _elem.begin() }
+   iterator end() { return _elem.end(); }
+
 protected:
    // percolate down until reaches the index n
    // return the positions of the element reaches

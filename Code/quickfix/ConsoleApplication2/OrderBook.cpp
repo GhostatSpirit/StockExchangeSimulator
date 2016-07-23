@@ -165,8 +165,52 @@ bool OrderBook::match(Transaction trans) {
 			_buy_orders.delTop();
 		}
 
+		// update the m_ values
+		m_tradableSellQuantity -= executeQty;
+		m_tradableBuyQuantity -= executeQty;
+		m_lastExecutedPrice = executePrice;
+
+		// market info for clients
+		m_avgExecutedPrice =   (m_avgExecutedPrice * m_executedQuantity
+								+ executePrice * executeQty) 
+							   / (executeQty + m_executedQuantity);
+		m_executedQuantity += executeQty;
+		m_lastExecutedQuantity = executeQty;
+		
+		// update last transaction
+		m_lastTransaction = trans;
+
 		return true;
 	}
 	
 
+}
+
+// overloading << operator to print out the order book
+std::ostream & operator<<(std::ostream & ostream, OrderBook & orderbook)
+{
+	const string marker = "> ";
+	// step 1: print out the symbol:
+	ostream << marker << orderbook._symbol << " ORDERBOOK" << endl;
+	
+	// step 2: print out the sell orders line by line:
+	ostream << marker << "SELL ORDERS" << endl;
+	// print out sell orders using iterator
+	for (Heap<Order>::const_iterator it = orderbook._sell_orders.begin();
+		it != orderbook._sell_orders.end(); ++it) {
+		ostream << marker << (*it);
+	}
+
+	// print out a new line
+	ostream << endl;
+
+	// step 3: print out the buy orders line by line:
+	ostream << marker << "BUY ORDERS" << endl;
+	for (Heap<Order>::const_iterator it = orderbook._buy_orders.begin();
+		it != orderbook._buy_orders.end(); ++it) {
+		ostream << marker << (*it);
+	}
+
+	// print out a new line
+	ostream << endl;
 }
