@@ -41,9 +41,9 @@ public:
    }
 
    // iterator for STL container:
-   typedef vector<T>::iterator iterator;
-   typedef vector<T>::const_iterator const_iterator;
-   iterator begin() { return _elem.begin() }
+   typedef typename vector<T>::iterator iterator;
+   typedef typename vector<T>::const_iterator const_iterator;
+   iterator begin() { return _elem.begin(); }
    iterator end() { return _elem.end(); }
 
 protected:
