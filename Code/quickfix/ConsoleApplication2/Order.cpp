@@ -67,11 +67,15 @@ Order::Order(const std::string& orderStr) {
 		FIX::Price price_obj;
 		FIX::OrderQty quantity_obj;
 
+		isValid = true;
+
+
 		// get SenderCompID
 		if (orderMsg.getHeader().getFieldIfSet(sender_obj)) {
 			m_owner = sender_obj.getValue();
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << sender_obj.getField() << " not set." << endl;
 		}
 		// get TargetCompID
@@ -79,6 +83,7 @@ Order::Order(const std::string& orderStr) {
 			m_target = target_obj.getValue();
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << target_obj.getField() << " not set." << endl;
 		}
 
@@ -102,10 +107,12 @@ Order::Order(const std::string& orderStr) {
 				break;
 			default:
 				m_type = others;
+				isValid = false;
 				cout << "Warning: OrdType not implemented.(other than '1' or '2')" << endl;
 			}
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << ordType_obj.getField() << " not set." << endl;
 		}
 
@@ -116,6 +123,7 @@ Order::Order(const std::string& orderStr) {
 			m_symbol = symbol_obj.getValue();
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << symbol_obj.getField() << " not set. " << endl;
 		}
 		
@@ -134,6 +142,7 @@ Order::Order(const std::string& orderStr) {
 			}
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << side_obj.getField() << " not set." << endl;
 		}
 
@@ -142,6 +151,7 @@ Order::Order(const std::string& orderStr) {
 			m_price = price_obj.getValue();
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << price_obj.getField() << " not set." << endl;
 		}
 
@@ -150,13 +160,17 @@ Order::Order(const std::string& orderStr) {
 			m_quantity = quantity_obj.getValue();
 		}
 		else {
+			isValid = false;
 			cout << "Warning: field number " << quantity_obj.getField() << " not set." << endl;
 		}
 
-		/*double priceVal = price.getValue();
-
-		string beginStr = beginString.getString();*/
-
+		// set the open quantity and other values
+		m_openQuantity = m_quantity;
+		m_executedQuantity = 0;
+		m_avgExecutedPrice = 0;
+		m_lastExecutedPrice = 0;
+		m_lastExecutedQuantity = 0;
+		isValid = true;
 	}
 	catch (exception& ex) {
 		cerr << "exception in Order constructor: " << ex.what() << endl;

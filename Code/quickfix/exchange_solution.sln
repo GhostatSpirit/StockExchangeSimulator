@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest++_vs12", "UnitTest
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exchange", "ConsoleApplication2\ConsoleApplication2.vcxproj", "{E382553E-3E25-4355-908F-6F13FDD34B78}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkTest", "network_test\NetworkTest\NetworkTest.vcxproj", "{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,6 +164,20 @@ Global
 		{E382553E-3E25-4355-908F-6F13FDD34B78}.Release|Win32.Build.0 = Release|Win32
 		{E382553E-3E25-4355-908F-6F13FDD34B78}.Release|x64.ActiveCfg = Release|x64
 		{E382553E-3E25-4355-908F-6F13FDD34B78}.Release|x64.Build.0 = Release|x64
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|Win32.Build.0 = Debug|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|x64.ActiveCfg = Debug|x64
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Debug|x64.Build.0 = Debug|x64
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|Win32.ActiveCfg = Release|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|Win32.Build.0 = Release|Win32
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|x64.ActiveCfg = Release|x64
+		{9DC2B4E7-8359-4D33-9EBB-C2913AA1D7F7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

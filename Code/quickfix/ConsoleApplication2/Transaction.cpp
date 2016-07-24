@@ -53,3 +53,16 @@ void Transaction::validate() {
 
 	valid = true;
 }
+
+ostream & operator<<(ostream & ostream, Transaction & transaction)
+{
+	const string marker = "> ";
+	cout << marker << "TRANSACTION OF " << transaction.getSymbol() << endl;
+	cout << "PRICE: " << std::setw(10) << transaction.getPrice() << "|";
+	cout << "QUANTITY: " << std::setw(10) << transaction.getQuantity() << "|";
+	cout << "SELLER: " << std::setw(10) << transaction.getSeller() << "|";
+	cout << "BUYER: " << std::setw(10) << transaction.getBuyer() << "|";
+	cout << endl;
+
+	return ostream;
+}

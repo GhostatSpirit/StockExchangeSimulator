@@ -23,6 +23,7 @@ class OrderBook {
 public:
 	// ------------ Constructors -------------
 	OrderBook(string& symbol);	// construct an OrderBook using a string symbol
+	OrderBook(const string& symbol);	// construct an OrderBook using a string symbol
 
 	// construct an OrderBook using two vectors of Orders
 	OrderBook(string& symbol, vector<Order>& sell_orders, vector<Order>& buy_orders);
@@ -31,10 +32,17 @@ public:
 	bool insert(Order& order);	// insert an order to this order book
 								// return true if succeeded
 
-	bool match(Transaction trans);		// run a match process according to the match mechanisms,
+	Transaction match();				// run a match process according to the match mechanisms,
 										// stores the transaction details in the Transaction object if successed
-										// return true if succeeded, false if failed
+										// return an invalid transaction object if failed
 	Transaction getLastTransaction() { return m_lastTransaction; }
+
+	bool isSellEmpty() {
+		return (_sell_orders.size() == 0);
+	}
+	bool isBuyEmpty() {
+		return (_buy_orders.size() == 0);
+	}
 
 private:
 	string _symbol;				// a string stores the symbol of this order book

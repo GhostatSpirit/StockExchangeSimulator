@@ -18,6 +18,9 @@ using namespace std;
 
 class Transaction {
 public:
+	// ----------- operator overloading ------------
+	friend ostream& operator<<(ostream& ostream, Transaction& transaction);
+
 	// ----------- constructors ------------
 	Transaction() { valid = false; };		// DANGEROUS! So we set valid to false.		
 	Transaction(Order& sell_order, Order& buy_order);
@@ -31,7 +34,7 @@ public:
 		if (!valid) error("transaction not valid");
 		return price;
 	}
-	double getQuantity() { 
+	long getQuantity() { 
 		if (!valid) error("transaction not valid");
 		return quantity;
 	}
@@ -44,7 +47,6 @@ public:
 		return buyer;
 	}
 	bool isValid() { 
-		if (!valid) error("transaction not valid");
 		return valid;
 	}
 	

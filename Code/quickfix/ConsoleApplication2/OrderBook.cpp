@@ -20,6 +20,20 @@ OrderBook::OrderBook(string& symbol) {
 	m_avgExecutedPrice = 0;
 }
 
+OrderBook::OrderBook(const string& symbol) {
+	_symbol = symbol;
+	_sell_orders.setSmallerTop();
+	_buy_orders.setBiggerTop();
+
+	// initializing variables:
+	m_tradableSellQuantity = 0;
+	m_tradableBuyQuantity = 0;
+	m_lastExecutedPrice = 0;
+	m_executedQuantity = 0;
+	m_lastExecutedQuantity = 0;
+	m_avgExecutedPrice = 0;
+}
+
 OrderBook::OrderBook(string& symbol, vector<Order>& sell_orders, vector<Order>& buy_orders) {
 	_symbol = symbol;
 	// using constructor to heapify using Floyd(the only way)
@@ -113,10 +127,12 @@ bool OrderBook::validate_order(Order& order) {
 	return true;
 }
 
-bool OrderBook::match(Transaction trans) {
+Transaction OrderBook::match() {
+	Transaction trans;
 	if (_sell_orders.size() == 0 || _buy_orders.size() == 0) {
-		return false;
+		return trans;
 	}
+
 	// get the sell order of the lowest price,
 	// and the buy order of the highest price
 	Order& lowestSellOrder = _sell_orders.getTop();
@@ -127,12 +143,16 @@ bool OrderBook::match(Transaction trans) {
 
 	// if they do not match, return false
 	if (sellPrice > buyPrice) {
-		return false;
+		return trans;
 	}
 	else {
 		// see which one has the larger quantity
-		long sellQty = lowestSellOrder.getQuantity();
-		long buyQty = highestBuyOrder.getQuantity();
+
+		
+		long sellQty = lowestSellOrder.getOpenQuantity();
+		long buyQty = highestBuyOrder.getOpenQuantity();
+
+
 		bool sellLess = (sellQty <= buyQty);
 		long executeQty;
 		if (sellLess) {
@@ -141,6 +161,7 @@ bool OrderBook::match(Transaction trans) {
 		else {
 			executeQty = buyQty;
 		}
+
 		// calculate the executePrice
 		// (naive version) executePrice = middle(sellPrice, buyPrice)
 		double executePrice = (sellPrice + buyPrice) / 2.0;
@@ -157,7 +178,7 @@ bool OrderBook::match(Transaction trans) {
 		// check and delete the order(s) with 0 quantity
 		if (sellLess) {
 			_sell_orders.delTop();
-			if (highestBuyOrder.getQuantity() == 0) {
+			if (highestBuyOrder.isFilled()) {
 				_buy_orders.delTop();
 			}
 		}
@@ -180,7 +201,7 @@ bool OrderBook::match(Transaction trans) {
 		// update last transaction
 		m_lastTransaction = trans;
 
-		return true;
+		return trans;
 	}
 	
 

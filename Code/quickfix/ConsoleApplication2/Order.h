@@ -62,10 +62,13 @@ public:
 		m_avgExecutedPrice = 0;
 		m_lastExecutedPrice = 0;
 		m_lastExecutedQuantity = 0;
+		isValid = true;
 	}
 
 	// construct an order form an existed order
 	Order(const Order& copy);
+
+	bool isValid = false;
 
 	const std::string& getClientID() const { return m_clientId; }
 	const std::string& getSymbol() const { return m_symbol; }
@@ -95,7 +98,8 @@ public:
 		m_executedQuantity += quantity;
 		m_lastExecutedPrice = price;
 		m_lastExecutedQuantity = quantity;
-		}
+
+	}
 	void cancel()
 	{
 		m_openQuantity = 0;
@@ -174,23 +178,25 @@ private:
 
 inline std::ostream& operator<<( std::ostream& ostream, const Order& order )
 {
-	ostream << "ID: " << std::setw(10) << order.getClientID() << ","
-		<< " OWNER: " << std::setw(10) << order.getOwner() << ",";
+	ostream << "ID: " << std::setw(10) << order.getClientID() << "|"
+		<< "OWNER: " << std::setw(10) << order.getOwner() << "|";
 
 	// print side (buy/sell)
-	ostream << " SIDE: " ;
+	ostream << "SIDE: " ;
 	if (order.getSide() == Order::Side::buy) {
-		ostream << std::setw(10) << "BUY" << ",";
+		ostream << std::setw(10) << "BUY" << "|";
 	}
 	else if (order.getSide() == Order::Side::sell) {
-		ostream << std::setw(10) << "SELL" << ",";
+		ostream << std::setw(10) << "SELL" << "|";
 	}
 	else {
-		ostream << std::setw(10) << "UNDEFINED" << ",";
+		ostream << std::setw(10) << "UNDEFINED" << "|";
 	}
 
-	ostream	<< " PRICE: " << std::setw(10) << order.getPrice() << ","
-		<< " QUANTITY: " << std::setw(10) << order.getQuantity() << "," << endl;
+	ostream	<< "PRICE: " << std::setw(10) << order.getPrice() << "|"
+		<< "QTY: " << std::setw(10) << order.getQuantity() << "|"
+		<< "OPENQTY: " << std::setw(10) << order.getOpenQuantity() << "|"
+		<< endl;
 	
 	return ostream;
 }
