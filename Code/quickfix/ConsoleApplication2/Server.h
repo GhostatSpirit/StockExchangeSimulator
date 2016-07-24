@@ -1,3 +1,10 @@
+/* This code originally was created by Jpres at YouTube.
+ * Website: https://www.youtube.com/watch?v=9jLhDYtyA7c&list=PLcacUGyBsOIBFl6Q8d5XkQs7NzSlxlTKx&index=11
+ * Modified by Yang Liu, lykavin@hotmail.com
+ * 
+ * This header file defines the Server class for the Exchange project.(server)
+ */
+
 #pragma once
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib,"ws2_32.lib")

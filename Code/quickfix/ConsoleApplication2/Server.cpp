@@ -1,3 +1,8 @@
+/* This code originally was created by Jpres at YouTube.
+* Website: https://www.youtube.com/watch?v=9jLhDYtyA7c&list=PLcacUGyBsOIBFl6Q8d5XkQs7NzSlxlTKx&index=11
+* Modified by Yang Liu, lykavin@hotmail.com
+*/
+
 #include "Server.h"
 
 Server::Server(int PORT, bool BroadcastPublically)//Port = port to broadcast on. BroadcastPublically = false if server is not open to the public (people outside of your router), true = server is open to everyone (assumes that the port is properly forwarded on router settings)

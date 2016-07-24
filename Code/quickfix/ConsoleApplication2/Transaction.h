@@ -13,6 +13,7 @@
 
 #include "error.h"
 #include "Order.h"
+#include "Time.h"
 
 using namespace std;
 
@@ -72,6 +73,7 @@ private:
 	bool valid;				// a transaction is not valid if is constructed from default constrcutor
 							// if passes validate(), then the transaction becomes valid
 
+	Time _time;				// time object that stores the utc time when the transaction was filed
 };
 //
 //class BadTransaction : public Transaction {

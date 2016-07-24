@@ -29,6 +29,9 @@ Transaction::Transaction(Order& sell_order, Order& buy_order)
 	buyer = buyOrder.getOwner();
 	
 	valid = true;
+
+	//update UTC time of this transaction
+	_time.setCurrent();
 }
 
 void Transaction::validate() {
@@ -52,17 +55,20 @@ void Transaction::validate() {
 	buyer = buyOrder.getOwner();
 
 	valid = true;
+
+	//update UTC time of this transaction
+	_time.setCurrent();
 }
 
 ostream & operator<<(ostream & ostream, Transaction & transaction)
 {
 	const string marker = "> ";
-	cout << marker << "TRANSACTION OF " << transaction.getSymbol() << endl;
-	cout << "PRICE: " << std::setw(10) << transaction.getPrice() << "|";
-	cout << "QUANTITY: " << std::setw(10) << transaction.getQuantity() << "|";
-	cout << "SELLER: " << std::setw(10) << transaction.getSeller() << "|";
-	cout << "BUYER: " << std::setw(10) << transaction.getBuyer() << "|";
-	cout << endl;
+	ostream << marker << "TRANSACTION OF: " << transaction.getSymbol() << "|" << "TIME: " << transaction._time.getString() << endl;
+	ostream << marker << "PRICE: " << std::setw(10) << transaction.getPrice() << "|";
+	ostream <<  "QUANTITY: " << std::setw(10) << transaction.getQuantity() << "|";
+	ostream << "SELLER: " << std::setw(10) << transaction.getSeller() << "|";
+	ostream << "BUYER: " << std::setw(10) << transaction.getBuyer() << "|";
+	ostream << endl;
 
 	return ostream;
 }

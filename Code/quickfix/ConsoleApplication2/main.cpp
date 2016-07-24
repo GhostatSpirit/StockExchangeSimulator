@@ -13,6 +13,8 @@
 #include "OrderBook.h"
 #include "Exchange.h"
 
+#include <fstream>
+
 using namespace std;
 
 
@@ -37,13 +39,22 @@ int main()
 	//	cerr << "error: " << ex.what() << endl;
 	//}
 
-	Server MyServer(1111); //Create server on port 100
-	for (int i = 0; i < 100; i++) //Up to 100 times...
-	{
-		MyServer.ListenForNewConnection(); //Accept new connection (if someones trying to connect)
+	try {
+		Server MyServer(1111); //Create server on port 100
+		for (int i = 0; i < 100; i++) //Up to 100 times...
+		{
+			MyServer.ListenForNewConnection(); //Accept new connection (if someones trying to connect)
+		}
 	}
+	catch (std::exception& ex) {
+		cerr << "! ERROR: " << ex.what() << endl;
+	}
+
+
 	system("pause");
 	return 0;
+
+
 
 	//string testMsgStr = "8=FIX.4.2\0019=138\00135=D\00134=2\00149=U1par\00150=U1fix\00152=20090206-21:13:59.324\00156=FixServer\00111=1233954839232\00115=EUR\00121=1\00138=10000\00140=1\00144=1.25\00154=1\00155=EUR/USD\00159=0\00110=215\001";
 

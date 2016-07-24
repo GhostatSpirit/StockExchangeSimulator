@@ -1,11 +1,15 @@
 
 
 #include "Exchange.h"
+
+#include <fstream>
+
 using namespace std;
 
 Exchange::Exchange(const string compID)
 	:_compID(compID){
 	// other things needed for this constructor
+	log_file_name = "exchange.txt";
 }
 
 void Exchange::process_msg(const string & msg_str)
@@ -13,13 +17,16 @@ void Exchange::process_msg(const string & msg_str)
 	FIX::MsgType msgtype;
 
 	// create the message object, check the MsgType and destroy it
-	{
+	try{
 		FIX::Message message(msg_str);
 
 		// get the MsgType, and if failed, throw exception
 		if (!message.getHeader().getFieldIfSet(msgtype)) {
 			error("Exchange: process_msg: MsgType not found");
 		}
+	}
+	catch (std::exception& ex) {
+		cout << "! Error: " << ex.what() << endl;
 	}
 
 	// process the order according to its type
@@ -68,7 +75,18 @@ void Exchange::process_transactions()
 	while (!(_transactions.empty())) {
 		// TODO: replace this with writing log files into a .log file
 		Transaction& trans = _transactions.front();
+		// show the transaction on the console
 		cout << trans;
+		// write the transaction to a log file
+		ofstream ofs(log_file_name, ios_base::out|ios_base::app);
+		if (!ofs) {
+			error("cannot open log file");
+			cout << "failed to open log file";
+		}
+
+		ofs << trans;
+		ofs.close();
+
 		_transactions.pop();
 	}
 }
@@ -141,33 +159,39 @@ OrderBook* Exchange::find_orderbook(const string symbol){
 
 void Exchange::process_order(const string & msg_str)
 {
-	// create the order
-	Order order(msg_str);
+	try {
+		Order order(msg_str);
+		// try creating the order
 
-	// if the order is not valid, do something and abort
-	if (!order.isValid) {
-		cerr << "Warning: order not valid, maybe missing fields" << endl;
-		return;
+
+		// if the order is not valid, do something and abort
+		if (!order.isValid) {
+			cerr << "Warning: order not valid, maybe missing fields" << endl;
+			return;
+		}
+
+		string symbol = order.getSymbol();
+		// now the order must be valid, check if there is an orderbook
+		OrderBook* p_orderbook = find_orderbook(symbol);
+
+		// if we cannot find the orderbook, create a new orderbook with the order in it
+		if (p_orderbook == nullptr) {
+			OrderBook new_orderbook(symbol);
+			new_orderbook.insert(order);
+			_orderbook_map.insert(pair<string, OrderBook>(symbol, new_orderbook));
+			// because the orderbook only has a single order now, we do not need to match
+		}
+		// else, just add the order to the orderbook
+		else {
+			p_orderbook->insert(order);
+			// try to match the orders with this symbol
+			// TODO: find better match mechanism
+			match(symbol);
+			process_transactions();
+		}
 	}
-
-	string symbol = order.getSymbol();
-	// now the order must be valid, check if there is an orderbook
-	OrderBook* p_orderbook = find_orderbook(symbol);
-
-	// if we cannot find the orderbook, create a new orderbook with the order in it
-	if (p_orderbook == nullptr) {
-		OrderBook new_orderbook(symbol);
-		new_orderbook.insert(order);
-		_orderbook_map.insert(pair<string, OrderBook>(symbol, new_orderbook));
-		// because the orderbook only has a single order now, we do not need to match
-	}
-	// else, just add the order to the orderbook
-	else {
-		p_orderbook->insert(order);
-		// try to match the orders with this symbol
-		// TODO: find better match mechanism
-		match(symbol);
-		process_transactions();
+	catch (FIX::Exception ex) {
+		cerr << "! ERROR: " << ex.what() << endl;
 	}
 	
 }

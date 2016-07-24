@@ -19,7 +19,7 @@
 **
 ****************************************************************************/
 
-/* Modified by Yang Liu, July 2016.
+/* Modified by Yang Liu, lykavin@homail.com.
  * This header file defines a basic stock exchange order.
  */
 

@@ -19,6 +19,7 @@
 #include "OrderBook.h"			// OrderBook object
 #include "Transaction.h"		// Transaction object
 #include "error.h"				// error()
+#include "Time.h"				// Time object
 
 class Exchange {
 public:
@@ -57,6 +58,8 @@ public:
 		}
 	}
 
+	string log_file_name;
+
 private:
 	string _compID;									// stores the CompID of the exchange
 													// appears as "TargetCompID" in received FIX messages
@@ -69,8 +72,8 @@ private:
 	OrderBook* find_orderbook(const string target_symbol);
 
 	void process_order(const string& msg_str);			// if the FIX message is an order, process that order
-	
-	
+
+	Time _time;
 };
 
 

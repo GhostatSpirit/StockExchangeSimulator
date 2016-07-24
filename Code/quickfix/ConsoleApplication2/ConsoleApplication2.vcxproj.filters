@@ -45,6 +45,9 @@
     <ClInclude Include="Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="ServerExample.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>

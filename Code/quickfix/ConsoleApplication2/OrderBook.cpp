@@ -233,7 +233,7 @@ std::ostream & operator<<(std::ostream & ostream, OrderBook & orderbook)
 	}
 
 	// print out a new line
-	ostream << endl;
+	//ostream << endl;
 
 	// return the ostream
 	return ostream;
